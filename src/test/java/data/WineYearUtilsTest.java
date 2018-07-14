@@ -16,8 +16,8 @@ public class WineYearUtilsTest
   @Test
   public void beforeOrEqualsIsBefore() {
     // given
-    int delta = 0;
-    int yearOfTheBottle = LocalDate.now().getYear() - 1;
+    int delta = 1;
+    int yearOfTheBottle = LocalDate.now().getYear();
 
     // when
     boolean result = WineYearUtils.isBeforeOrEquals(yearOfTheBottle, delta);
@@ -45,7 +45,7 @@ public class WineYearUtilsTest
   public void beforeOrEqualsIsAfter() {
     // given
     int delta = 1;
-    int yearOfTheBottle = LocalDate.now().getYear() + 2;
+    int yearOfTheBottle = LocalDate.now().getYear() - 2;
 
     // when
     boolean result = WineYearUtils.isBeforeOrEquals(yearOfTheBottle, delta);
@@ -128,5 +128,48 @@ public class WineYearUtilsTest
     // then
     assertThat(false, is(result));
   }
+
+  @Test
+  public void isEqualsBefore()
+  {
+    // given
+    int delta = 1;
+    int yearOfTheBottle = LocalDate.now().getYear() - 2;
+
+    // when
+    boolean result = WineYearUtils.isEquals(yearOfTheBottle, delta);
+
+    // then
+    assertThat(false, is(result));
+  }
+
+  @Test
+  public void isEquals()
+  {
+    // given
+    int delta = 1;
+    int yearOfTheBottle = LocalDate.now().getYear() - 1;
+
+    // when
+    boolean result = WineYearUtils.isEquals(yearOfTheBottle, delta);
+
+    // then
+    assertThat(true, is(result));
+  }
+
+  @Test
+  public void isEqualsAfter()
+  {
+    // given
+    int delta = 1;
+    int yearOfTheBottle = LocalDate.now().getYear();
+
+    // when
+    boolean result = WineYearUtils.isEquals(yearOfTheBottle, delta);
+
+    // then
+    assertThat(false, is(result));
+  }
+
 }
 
