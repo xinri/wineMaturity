@@ -6,6 +6,8 @@ import java.util.function.Predicate;
 /**
  * Interface for providing data on the wine.
  *
+ * TODO : refactor this interface in order to retrieve the remaining year for the next step.
+ *
  * Created by hlay on 05/07/18.
  */
 public interface WineData

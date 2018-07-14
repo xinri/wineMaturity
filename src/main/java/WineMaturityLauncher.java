@@ -11,8 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.annotation.Nonnull;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +23,14 @@ import java.util.Map;
  * This is the launcher on javaFX. It is a draft before creating a front and a back end.
  *
  * TODO : remove all the magic number
+ * TODO : some refactoring to do
  *
  * Created by hlay on 05/07/18.
  */
 public class WineMaturityLauncher extends Application
 {
+  private static int ACTUAL_YEAR = LocalDate.now().getYear();
+
   private static final String RED_WINE = "Vin rouge";
   private static final String WHITE_WINE = "Vin blanc";
 
@@ -78,13 +83,26 @@ public class WineMaturityLauncher extends Application
     final Label wineTypeLabelField = new Label("Type de vin :");
     final Label wineAppelationLabelField = new Label("vin d'appelation : ");
     final Label dateLabelField = new Label("Date : ");
-    final Spinner<Integer> yearSpinner = new Spinner<>(0, 4000, 2013);
+    final Spinner<Integer> yearSpinner = new Spinner<>(0, 4000, ACTUAL_YEAR);
     yearSpinner.setEditable(true);
 
     final Button run = new Button("Voir la maturité");
 
     run.setOnAction(value -> {
-      textArea.setText(wineComboBox.getValue().displayMessage(yearSpinner.getValueFactory().getValue()));
+      Integer yearValue;
+      if (yearSpinner.isEditable()) {
+        if (!NumberUtils.isCreatable(yearSpinner.getEditor().getText())) {
+          yearSpinner.getEditor().setText(String.valueOf(ACTUAL_YEAR));
+          yearValue = ACTUAL_YEAR;
+        }
+        else {
+          yearValue = Integer.valueOf(yearSpinner.getEditor().getText());
+        }
+      }
+      else {
+        yearValue = yearSpinner.getValueFactory().getValue();
+      }
+      textArea.setText(wineComboBox.getValue().displayMessage(yearValue));
     });
 
     HBox wineTypeBox = new HBox();
